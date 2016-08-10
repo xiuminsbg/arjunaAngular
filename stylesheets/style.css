@@ -1,0 +1,22 @@
+* {
+    -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.group:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+
+body{
+    font-size: 2em;
+    background: none;
+}
+
+#container {
+	max-width: 1200px;
+	background: none;
+  margin: 0px auto;
+}
