@@ -1,10 +1,46 @@
-<h1>Promos:</h1>
-<div class="box" ng-repeat="allPromo in allPromos">
-  <h3>{{ allPromo.promoTitle }}</h3>
-  <p>{{ allPromo.promoAmount }}</p>
-  <p>{{ allPromo.promoDate }}</p>
-  <p>{{ allPromo.promoDetail }}</p>
-  <!-- Delete Button -->
-  <div ng-click="delPromo(allPromo._id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>
+<div id="container">
+  <h1>Promos</h1>
+  <div class="box" ng-repeat="allPromo in allPromos track by $index">
+    <h3><strong></strong> {{ allPromo.promoTitle }}</h3>
+    <p><strong>Discount:</strong> {{ allPromo.promoAmount }}</p>
+    <p><strong>Date/Validity:</strong> {{ allPromo.promoDate }}</p>
+    <p><strong>Detail:</strong> {{ allPromo.promoDetail }}</p>
+
+    <!-- Edit Button -->
+    <div id="editButton" ng-click="show = !show">
+      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+    </div>
+    <div id="editInputField" ng-show="show">
+      <input type="text" placeholder="title" ng-model="allPromo.promoTitle">
+      <input type="text" placeholder="discount: % or text" ng-model="allPromo.promoAmount">
+      <input type="text" placeholder="date or validity" ng-model="allPromo.promoDate">
+      <input type="text" placeholder="detail" ng-model="allPromo.promoDetail">
+      <!-- Save Button -->
+      <div ng-click="editPromo(allPromo._id)">
+        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <!-- Delete Button -->
+    <div id="editButton" ng-click="delPromo(allPromo._id)">
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+    </div>
+  </div>
 </div>
-{{message}}
+<script>
+  $(document).ready(function(){
+    // $('#editButton').click(function () {
+    //   $(this).click(function () {
+    //     console.log('clicked');
+    //     $('.input').append('<div id="editInputField"><input type="text" placeholder="title" ng-model="promoTitle"><input type="text" placeholder="discount: % or text" ng-model="promoAmount"><input type="text" placeholder="date" ng-model="promoDate"><input type="text" placeholder="detail" ng-model="promoDetail"><div ng-click="editPromo(allPromo._id)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></div></div>');
+    //   });
+    // });
+    // EDIT Input Field
+    var editButton = document.getElementById('editButton');
+    var editInputField = document.getElementById('editInputField');
+    editButton.onclick = function () {
+      console.log('editInputField clicked');
+      editInputField.style.display = 'block';
+    };
+  });
+</script>

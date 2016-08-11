@@ -1,11 +1,11 @@
-/* globals angular */
-var arjuna = angular.module('arjuna', ['ngRoute']);
+/* globals angular $ */
+var arjuna = angular.module('arjuna', ['ngRoute', 'ngResource']);
 
 arjuna.config(function ($routeProvider) {
   $routeProvider
-    .when('/', {
-      controller: 'addController'
-    })
+    // .when('/', {
+    //   controller: 'addController'
+    // })
     .when('/signup', {
       templateUrl: './pages/signup.html',
       controller: 'signupController'
@@ -25,6 +25,7 @@ arjuna.config(function ($routeProvider) {
     });
 });
 
+// ADD a Promo
 arjuna.controller('addController', ['$scope', '$http', '$route', function ($scope, $http, $route) {
   $scope.promoTitle = '';
   $scope.promoAmount = '';
@@ -54,7 +55,9 @@ arjuna.controller('signupController', ['$scope', '$http', function ($scope, $htt
     })
     .then(function onSuccess (response) {
       console.log('Signup successfull!');
-      window.location = '/user';
+      window.localStorage.email = $scope.email;
+      window.localStorage.password = $scope.password;
+      window.location = '#/promos';
     })
     .catch(function onError (err) {
       console.log('Error: ' + err);
@@ -63,7 +66,7 @@ arjuna.controller('signupController', ['$scope', '$http', function ($scope, $htt
 }]);
 
 // Log-in controller
-arjuna.controller('loginController', ['$scope', '$location', '$http', function ($scope, $location, $http) {
+arjuna.controller('loginController', ['$scope', '$location', '$http', '$route', function ($scope, $location, $http, $route) {
   console.log('Login Controller initialized...');
   $scope.login = function () {
     $scope.email;
@@ -74,10 +77,14 @@ arjuna.controller('loginController', ['$scope', '$location', '$http', function (
       password: $scope.password
     }).then(function onSuccess (response) {
       console.log('login from angular success!');
-      $scope.message = 'Logged-in!';
       window.localStorage.email = $scope.email;
       window.localStorage.password = $scope.password;
-      $location.url = '/promos';
+      window.location = '#/promos';
+      document.getElementById('navPromos').style.visibility = 'visible';
+      document.getElementById('navLogout').style.visibility = 'visible';
+      document.getElementById('navSignup').style.visibility = 'hidden';
+      document.getElementById('navLogin').style.visibility = 'hidden';
+      document.getElementById('addButton').style.visibility = 'visible';
     })
     .catch(function onError (err) {
       console.log('Error: ' + err);
@@ -92,12 +99,17 @@ arjuna.controller('logoutController', ['$scope', '$location', '$http', '$route',
     .then(function onSuccess () {
       console.log('logged out');
       window.localStorage.clear();
-      $location.url = '/login';
+      window.location = '#/login';
+      document.getElementById('navPromos').style.visibility = 'hidden';
+      document.getElementById('navLogout').style.visibility = 'hidden';
+      document.getElementById('navSignup').style.visibility = 'visible';
+      document.getElementById('navLogin').style.visibility = 'visible';
+      document.getElementById('addButton').style.visibility = 'hidden';
     });
 }]);
 
 // Promos
-arjuna.controller('promoController', ['$scope', '$http', '$route', function ($scope, $http, $route) {
+arjuna.controller('promoController', ['$scope', '$location', '$http', '$route', function ($scope, $location, $http, $route) {
   console.log('Promos page initialized...');
   if (window.localStorage.email && window.localStorage.password) {
     // GET All Promos
@@ -111,24 +123,35 @@ arjuna.controller('promoController', ['$scope', '$http', '$route', function ($sc
         $scope.message = 'Error! Not Logged-in';
       });
 
-    // ADD a Promo
-    // $http.post('https://arjuna.herokuapp.com/promo/add')
-    //   .success(function (promos) {
-    //     $scope.allPromos = promos;
-    //     $scope.message = 'Logged-in! Hence you can see Promos!';
-    //   })
-    //   .error(function (err) {
-    //     console.log('Error: ' + err);
-    //     $scope.message = 'Error! Not Logged-in';
-    //   });
+    // EDIT a Promo
+    // $scope.promoTitle = '';
+    // $scope.promoAmount = '';
+    // $scope.promoDate = '';
+    // $scope.promoDetail = '';
+    $scope.editPromo = function (data) {
+      console.log(data);
+      $http.put('https://arjuna.herokuapp.com/promo/edit/' + data, {promoTitle: $scope.promoTitle, promoAmount: $scope.promoAmount, promoDate: $scope.promoDate, promoDetail: $scope.promoDetail})
+        .success(function (promos) {
+          console.log('yayy');
+          $route.reload();
+        });
+    };
+
+    // $scope.editInput = function ($index, data) {
+    //   console.log(data);
+    //   console.log($index);
+    //   $scope.promoTitle[0] = data.promoTitle;
+    //   $scope.promoAmount[0] = data.promoAmount;
+    //   $scope.promoDate[0] = data.promoDate;
+    //   $scope.promoDetail[0] = data.promoDetail;
+    // };
 
     // Delete a promo
     $scope.delPromo = function (data) {
       $http.delete('https://arjuna.herokuapp.com/promo/delete/' + data)
         .success(function (promos) {
           $route.reload();
-          $scope.allPromos = promos;
-          $scope.message = 'Logged-in! Hence you can see Promos!';
+          // $scope.allPromos = promos;
         })
         .error(function (err) {
           console.log('Error: ' + err);
