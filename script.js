@@ -1,11 +1,9 @@
-/* globals angular $ */
+/* globals angular */
 var arjuna = angular.module('arjuna', ['ngRoute', 'ngResource']);
 
 arjuna.config(function ($routeProvider) {
   $routeProvider
-    // .when('/', {
-    //   controller: 'addController'
-    // })
+
     .when('/signup', {
       templateUrl: './pages/signup.html',
       controller: 'signupController'
@@ -27,10 +25,10 @@ arjuna.config(function ($routeProvider) {
 
 // ADD a Promo
 arjuna.controller('addController', ['$scope', '$http', '$route', function ($scope, $http, $route) {
-  $scope.promoTitle = '';
-  $scope.promoAmount = '';
-  $scope.promoDate = '';
-  $scope.promoDetail = '';
+  // $scope.promoTitle = '';
+  // $scope.promoAmount = '';
+  // $scope.promoDate = '';
+  // $scope.promoDetail = '';
   $scope.addPromo = function () {
     $http.post('https://arjuna.herokuapp.com/promo/add', {promoTitle: $scope.promoTitle, promoAmount: $scope.promoAmount, promoDate: $scope.promoDate, promoDetail: $scope.promoDetail})
       .success(function (promos) {
@@ -94,7 +92,7 @@ arjuna.controller('loginController', ['$scope', '$location', '$http', '$route', 
 
 // Log-out controller
 arjuna.controller('logoutController', ['$scope', '$location', '$http', '$route', function ($scope, $location, $http, $route) {
-  $scope.message = 'Log-out page';
+  $scope.message = 'Logged Out';
   $http.get('https://arjuna.herokuapp.com/logout')
     .then(function onSuccess () {
       console.log('logged out');
