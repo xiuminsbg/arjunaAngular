@@ -1,8 +1,10 @@
-Promos:
-<div ng-repeat="allPromo in allPromos">
-  {{allPromo.promoTitle}}
-  {{allPromo.promoAmount}}
-  {{allPromo.promoDate}}
-  {{allPromo.promoDetail}}
+<h1>Promos:</h1>
+<div class="box" ng-repeat="allPromo in allPromos">
+  <h3>{{ allPromo.promoTitle }}</h3>
+  <p>{{ allPromo.promoAmount }}</p>
+  <p>{{ allPromo.promoDate }}</p>
+  <p>{{ allPromo.promoDetail }}</p>
+  <!-- Delete Button -->
+  <div ng-click="delPromo(allPromo._id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>
 </div>
 {{message}}
