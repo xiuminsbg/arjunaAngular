@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="../stylesheets/style.css">
 <div id="container">
   <h1>Promos</h1>
-  <div class="box" ng-repeat="allPromo in allPromos track by $index">
+  <!-- If using the commented out Edit button below: ng-repeat="allPromo in allPromos track by $index" -->
+  <div class="box" ng-repeat="allPromo in allPromos">
     <h3><strong></strong> {{ allPromo.promoTitle }}</h3>
     <p><strong>Discount:</strong> {{ allPromo.promoAmount }}</p>
     <p><strong>Date/Validity:</strong> {{ allPromo.promoDate }}</p>
@@ -22,7 +23,7 @@
       </div>
     </div> -->
 
-    <div id="editButton" onClick="edit()">
+    <div id="editButton" onClick="edit()" ng-controller="promoController">
       <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
     </div>
     <!-- The Modal -->
@@ -31,10 +32,10 @@
       <div class="editmodal-content" ng-controller="promoController">
         <span class="close">×</span>
         <h4>Edit</h4>
-        <input type="text" placeholder="title" ng-model="allPromo.promoTitle">
-        <input type="text" placeholder="discount: % or text" ng-model="allPromo.promoAmount">
-        <input type="text" placeholder="date or validity" ng-model="promoDate">
-        <input type="text" placeholder="description" ng-model="promoDetail">
+        <input type="text" placeholder="{{allPromo.promoTitle}}" ng-model="promoTitle">
+        <input type="text" placeholder="{{allPromo.promoAmount}}" ng-model="promoAmount">
+        <input type="text" placeholder="{{allPromo.promoDate}}" ng-model="promoDate">
+        <input type="text" placeholder="{{allPromo.promoDetail}}" ng-model="promoDetail">
         <div id="saveBtn" ng-click="editPromo(allPromo._id)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></div>
       </div>
     </div>
@@ -43,9 +44,9 @@
     <div id="editButton" ng-click="delPromo(allPromo._id)">
       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
     </div>
+
   </div>
 </div>
-<!-- <script src="../popup.js" type="text/javascript"></script> -->
 <script>
   // EDIT Input Field
   function edit () {
@@ -60,10 +61,5 @@
         editPopup.style.display = 'none';
       }
     };
-
-    // var close = document.getElementById('saveBtn');
-    // close.onclick = function () {
-    //   editmodal.style.display = 'none';
-    // };
   };
 </script>
