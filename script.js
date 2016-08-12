@@ -122,10 +122,6 @@ arjuna.controller('promoController', ['$scope', '$location', '$http', '$route', 
       });
 
     // EDIT a Promo
-    // $scope.promoTitle = '';
-    // $scope.promoAmount = '';
-    // $scope.promoDate = '';
-    // $scope.promoDetail = '';
     $scope.editPromo = function (data) {
       console.log(data);
       $http.put('https://arjuna.herokuapp.com/promo/edit/' + data, {promoTitle: $scope.promoTitle, promoAmount: $scope.promoAmount, promoDate: $scope.promoDate, promoDetail: $scope.promoDetail})
